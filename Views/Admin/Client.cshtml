@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    @model online_store.ViewModels.OrderRowListView
+}
+
+<div class="text-center">
+    <h1 class="display-4">Client</h1>
+    <p>Please see table below to view a list of our clients info.</p>
+</div>
+
+<div>
+    <table>
+        <tr>
+            <th>order_id</td>
+            <th>product_name</td>
+            <th>quantity</td>
+            <th>unit_price</td>
+        </tr>
+        @{
+            foreach (var c in @Model.Orders)
+            {
+                <tr>
+                   <td>@c.OrderId</td>
+                   <td>@c.ProductName</td>
+                   <td>@c.Quantity</td>
+                   <td>@c.ProductPrice</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+<div>
+    <h3><a href="/Admin/Clients">previous page</a></h3>
+</div>
