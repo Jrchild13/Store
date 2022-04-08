@@ -30,15 +30,15 @@ namespace online_store.Admin
                              from t in db.Orders
                              join oi in db.OrderItems on t.OrderId equals oi.OrderId
                              from up in db.OrderItems
-                             join p in db.Products on oi.ProductId equals p.ProductId
+                             join q in db.Products on oi.ProductId equals q.ProductId
                              from pr in db.Products
-                             join po in db.Products on p.UnitPrice equals po.UnitPrice
+                             join po in db.Products on q.UnitPrice equals po.UnitPrice
                              where t.CustomerId == id
                              select new OrderRowView { Name = n.FirstName + " " + n.LastName,
                                                        OrderId = t.OrderId,
                                                        Quantity = oi.Quantity,
                                                        ProductPrice = po.UnitPrice,
-                                                       ProductName = p.Name}).ToList();
+                                                       ProductName = q.Name}).ToList();
 
             return View(client);    
         }
