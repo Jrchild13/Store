@@ -22,23 +22,28 @@ namespace online_store.Admin
             return View(clients);
         }
         public ActionResult Client(int id)
-        { 
+        {
             var client = new OrderRowListView();
+            storeContext dc = new storeContext();
+
+            client.Name = (from c in dc.Customers
+                                 where c.CustomerId == id
+                                 select c.FirstName +  " " + c.LastName).FirstOrDefault();
+
             storeContext db = new storeContext();
 
-            client.Orders = (from n in db.Customers
-                             from t in db.Orders
-                             join oi in db.OrderItems on t.OrderId equals oi.OrderId
-                             from up in db.OrderItems
-                             join q in db.Products on oi.ProductId equals q.ProductId
-                             from pr in db.Products
-                             join po in db.Products on q.UnitPrice equals po.UnitPrice
-                             where t.CustomerId == id
-                             select new OrderRowView { Name = n.FirstName + " " + n.LastName,
-                                                       OrderId = t.OrderId,
-                                                       Quantity = oi.Quantity,
-                                                       ProductPrice = po.UnitPrice,
-                                                       ProductName = q.Name}).ToList();
+            client.Orders = (from o in db.Orders
+                             join c in db.Customers on o.CustomerId equals c.CustomerId
+                             join oi in db.OrderItems on o.OrderId equals oi.OrderId
+                             join p in db.Products on oi.ProductId equals p.ProductId
+                             where c.CustomerId == id
+                             select new OrderRowView
+                             {
+                                 OrderId = o.OrderId,
+                                 Quantity = oi.Quantity,
+                                 ProductPrice = p.UnitPrice,
+                                 ProductName = p.Name,
+                             }).ToList();
 
             return View(client);    
         }
