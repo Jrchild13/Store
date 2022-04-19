@@ -1,0 +1,14 @@
+C:\Dev\Store\Store.Db\bin\Debug\net6.0\Store.Db.deps.json
+C:\Dev\Store\Store.Db\bin\Debug\net6.0\Store.Db.runtimeconfig.json
+C:\Dev\Store\Store.Db\bin\Debug\net6.0\Store.Db.dll
+C:\Dev\Store\Store.Db\bin\Debug\net6.0\ref\Store.Db.dll
+C:\Dev\Store\Store.Db\bin\Debug\net6.0\Store.Db.pdb
+C:\Dev\Store\Store.Db\obj\Debug\net6.0\Store.Db.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\Store\Store.Db\obj\Debug\net6.0\Store.Db.AssemblyInfoInputs.cache
+C:\Dev\Store\Store.Db\obj\Debug\net6.0\Store.Db.AssemblyInfo.cs
+C:\Dev\Store\Store.Db\obj\Debug\net6.0\Store.Db.csproj.CoreCompileInputs.cache
+C:\Dev\Store\Store.Db\obj\Debug\net6.0\Store.Db.dll
+C:\Dev\Store\Store.Db\obj\Debug\net6.0\ref\Store.Db.dll
+C:\Dev\Store\Store.Db\obj\Debug\net6.0\Store.Db.pdb
+C:\Dev\Store\Store.Db\obj\Debug\net6.0\Store.Db.genruntimeconfig.cache
+C:\Dev\Store\Store.Db\obj\Debug\net6.0\Store.Db.csproj.AssemblyReference.cache
