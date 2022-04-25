@@ -1,16 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    @model Store.Models.ClientsListView
+    @model Store.Db.Models.ClientsRecordView
 }
 @{
-    foreach (var c in @Model.Name)
+    foreach (var c in @Model.ClientName)
     {
-        <div class="text-center">
+        <div class="textt-center">
             <h1 class="display-4">Client: @c.Name</h1>
-            <p>Please see table below to view a list of our clients info.</p>
+            <p>Please see table below to view a the order's our client has made. </p>
         </div>
     }
 }
+
 <div>
     <table>
         <tr>
@@ -20,13 +21,13 @@
             <th>unit_price</th>
         </tr>            
         @{
-            foreach (var x in @Model.Orders)
+            foreach (var x in @Model.ClientOrders)
             {
                 <tr>
                     <td>@x.OrderId</td>
                     <td>@x.ProductName</td>
                     <td>@x.Quantity</td>
-                    <td>@x.ProductPrice</td>
+                    <td>@x.UnitPrice</td>
                 </tr>
             }            
         }

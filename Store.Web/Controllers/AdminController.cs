@@ -1,13 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Store.Db.Models;
-using Store.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Store.Db.Interfaces;
+using Store.Db.Entities;
+using Store.Db.Repositories;
 
 namespace Store.Admin
 {
     public class AdminController : Controller
     {
+        //private StoreDbContext context;
+        private readonly IClientsRepository _clientsRepository;
+        private readonly IClientRepository _clientRepository;
+        public AdminController(IClientRepository clientRepo, IClientsRepository clientsRepo)
+        {
+            _clientRepository = clientRepo; //  new ClientRepository(new StoreDbContext());
+            _clientsRepository = clientsRepo; // new ClientsRepository(new StoreDbContext());
+        }
         public static int AddTwoNumbers(int x, int y)
         {
             return x + y;
@@ -15,21 +22,26 @@ namespace Store.Admin
         // GET: AdminController
         public ActionResult Clients()
         {
-            var clients = new ClientListView();
-            var db = new StoreDbContext();
-            clients.ClientsRecords = (from r in db.Customers                                 
-                                      select new ClientView { Address = r.Address, 
-                                                                             Birthday = r.BirthDate.ToString(),
-                                                                             Points = r.Points,
-                                                                             Name = r.FirstName + " " + r.LastName,
-                                                                             ClientId = r.CustomerId}).ToList();
+
+            var clients =  _clientsRepository.GetAllCustomers();
+
+
+            //var clients = new ClientListView();
+            //var db = new StoreDbContext();
+            //clients.ClientsRecords = (from r in db.Customers                                 
+            //                          select new ClientView { Address = r.Address, 
+            //                                                                 Birthday = r.BirthDate.ToString(),
+            //                                                                 Points = r.Points,
+            //                                                                 Name = r.FirstName + " " + r.LastName,
+            //                                                                 ClientId = r.CustomerId}).ToList();
             return View(clients);
         }
 
         public ActionResult ClientOrders(int id)
-        { 
+        {
+            var client = _clientRepository.GetAllOrders(id);
             
-            var db = new StoreDbContext();
+            /*var db = new StoreDbContext();
             var client = new ClientsListView
             {
                 Name = (from c in db.Customers
@@ -47,10 +59,10 @@ namespace Store.Admin
                           {
                               OrderId = o.OrderId,
                               Quantity = oi.Quantity,
-                              ProductPrice = p.UnitPrice,
-                              ProductName = p.Name
+                              UnitPrice = p.UnitPrice,
+                              Name = p.Name
                           }).ToList(),
-            };
+            }; */
             return View(client);    
         }        
 
@@ -76,7 +88,7 @@ namespace Store.Admin
         }
 
         // GET: AdminController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit()
         {
             return View();
         }
@@ -97,7 +109,7 @@ namespace Store.Admin
         }
 
         // GET: AdminController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete()
         {
             return View();
         }
