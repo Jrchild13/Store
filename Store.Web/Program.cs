@@ -1,8 +1,15 @@
+using Store.Db.Entities;
+using Store.Db.Repositories;
+using Store.Db.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<StoreDbContext>();
+builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

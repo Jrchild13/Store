@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Home Page";
-    @model Store.Models.ClientListView
+    @model Store.Db.Models.ClientListView
 
 }
 
@@ -23,13 +23,13 @@
             <th>points</th>
         </tr>
         @{
-            foreach (var c in @Model.ClientsRecords)
+            foreach (var c in @Model.Clients)
             {
                 <tr>
-                   <td> <a href="/admin/clientorders/@c.ClientId">@c.Name</a></td>
-                   <td>@c.Birthday</td>
+                   <td> <a href="/admin/clientorders/@c.CustomerId">@c.Name</a></td>
+                   <td>@c.BirthDate</td>
                    <td>@c.Address</td>
-                    <td>@c.Points</td>
+                   <td>@c.Points</td>
                 </tr>
             }
             <tr>
