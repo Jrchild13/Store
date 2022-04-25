@@ -28,7 +28,6 @@ namespace Store.Db.Repositories
                                 join oi in _context.OrderItems on o.OrderId equals oi.OrderId
                                 join p in _context.Products on oi.ProductId equals p.ProductId
                                 where o.CustomerId == id
-                                //where c.CustomerId == o.CustomerId
                                 select new ClientsRecord
                                 {
                                     OrderId = o.OrderId,
