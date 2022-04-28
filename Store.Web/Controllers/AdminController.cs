@@ -1,27 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Store.Db.Interfaces;
-using Store.Db.Entities;
-using Store.Db.Repositories;
+using RockLib.Logging;
+using ILogger = RockLib.Logging.ILogger;
 
 namespace Store.Admin
 {
     public class AdminController : Controller
     {
-        //private StoreDbContext context;
         private readonly IClientsRepository _clientsRepository;
         private readonly IClientRepository _clientRepository;
-        public AdminController(IClientRepository clientRepo, IClientsRepository clientsRepo)
+        private readonly ILogger _logger;
+
+        public AdminController(IClientRepository clientRepo, IClientsRepository clientsRepo, ILogger log)
         {
             _clientRepository = clientRepo;
             _clientsRepository = clientsRepo;
+            _logger = log;
         }
-        public static int AddTwoNumbers(int x, int y)
-        {
-            return x + y;
-        }
+
         // GET: AdminController
         public ActionResult Clients()
         {
+            _logger.Info("Searching for clients");
             var clients =  _clientsRepository.GetAllCustomers();
 
             return View(clients);
@@ -29,6 +29,7 @@ namespace Store.Admin
 
         public ActionResult ClientOrders(int id)
         {
+            _logger.Info("Searching for client orders");
             var client = _clientRepository.GetAllOrders(id);
             
             return View(client);    

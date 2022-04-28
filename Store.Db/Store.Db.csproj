@@ -7,8 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
+    <PackageReference Include="RockLib.Logging" Version="3.0.8" />
+    <PackageReference Include="RockLib.Logging.DependencyInjection" Version="1.0.2" />
   </ItemGroup>
 
 </Project>
