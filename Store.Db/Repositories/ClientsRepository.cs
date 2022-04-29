@@ -35,18 +35,18 @@ namespace Store.Db.Repositories
 
                 if (clientList.Clients.Count > 0)
                 {
-                    _logger.Info("Returning all clients found");
+                    _logger.Debug("Returning all clients found");
                 }
                 else
                 {
-                    _logger.Info("No clients found");
+                    _logger.Debug("No clients found");
                 }
 
                 return clientList;
             }
             catch (Exception ex)
             {
-                _logger.Warn("Something wen't wrong in ClientsRepository");
+                _logger.Error("Something wen't wrong in ClientsRepository");
                 throw new Exception(ex.Message);
             }
         }

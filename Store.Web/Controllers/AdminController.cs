@@ -21,7 +21,7 @@ namespace Store.Admin
         // GET: AdminController
         public ActionResult Clients()
         {
-            _logger.Info("Searching for clients");
+            _logger.Debug("Searching for clients");
             var clients =  _clientsRepository.GetAllCustomers();
 
             return View(clients);
@@ -29,7 +29,7 @@ namespace Store.Admin
 
         public ActionResult ClientOrders(int id)
         {
-            _logger.Info("Searching for client orders");
+            _logger.Debug("Searching for client orders");
             var client = _clientRepository.GetAllOrders(id);
             
             return View(client);    
