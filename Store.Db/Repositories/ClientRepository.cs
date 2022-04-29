@@ -1,43 +1,61 @@
 ﻿using Store.Db.Interfaces;
 using Store.Db.Entities;
 using Store.Db.Models;
+using RockLib.Logging;
 
 namespace Store.Db.Repositories
 {
     public class ClientRepository : IClientRepository
     {
         private readonly StoreDbContext _context;
-
-        public ClientRepository(StoreDbContext context) 
+        private readonly ILogger _logger;
+        public ClientRepository(StoreDbContext context, ILogger logger) 
         {
-            this._context = context;
+            _context = context;
+            _logger = logger;
         }
 
         public ClientsRecordView GetAllOrders(int id)
         {
-            var clientRecords = new ClientsRecordView
+            try
             {
-                ClientName = (from c in _context.Customers
-                              where c.CustomerId == id
-                              select new ClientsRecord
-                              {
-                                  Name = c.FirstName + " " + c.LastName,
-                              }).ToList(),
+                var clientRecords = new ClientsRecordView
+                {
+                    ClientName = (from c in _context.Customers
+                                  where c.CustomerId == id
+                                  select new ClientsRecord
+                                  {
+                                      Name = c.FirstName + " " + c.LastName,
+                                  }).ToList(),
 
-                ClientOrders = (from o in _context.Orders
-                                join oi in _context.OrderItems on o.OrderId equals oi.OrderId
-                                join p in _context.Products on oi.ProductId equals p.ProductId
-                                where o.CustomerId == id
-                                //where c.CustomerId == o.CustomerId
-                                select new ClientsRecord
-                                {
-                                    OrderId = o.OrderId,
-                                    ProductName = p.Name,
-                                    Quantity = oi.Quantity,
-                                    UnitPrice = p.UnitPrice,
-                                }).ToList(),
-            };
-            return clientRecords;
+                    ClientOrders = (from o in _context.Orders
+                                    join oi in _context.OrderItems on o.OrderId equals oi.OrderId
+                                    join p in _context.Products on oi.ProductId equals p.ProductId
+                                    where o.CustomerId == id
+                                    select new ClientsRecord
+                                    {
+                                        OrderId = o.OrderId,
+                                        ProductName = p.Name,
+                                        Quantity = oi.Quantity,
+                                        UnitPrice = p.UnitPrice,
+                                    }).ToList(),
+                };
+                if (clientRecords.ClientOrders.Count > 0)
+                {
+                    _logger.Info("Returning orders found for this client");
+                }
+                else
+                {
+                    _logger.Info("No orders found for this client");
+                }
+
+                return clientRecords;
+            }
+            catch (Exception ex)
+            {
+                _logger.Warn("Something wen't wrong in ClientRepository");
+                throw new Exception(ex.Message);
+            }
         }
 
         public int AddOrders(ClientsRecord record)

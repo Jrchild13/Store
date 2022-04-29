@@ -1,15 +1,38 @@
 using Store.Db.Entities;
 using Store.Db.Repositories;
 using Store.Db.Interfaces;
+using RockLib.Logging.DependencyInjection;
+using RockLib.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddLogger()
+    .AddConsoleLogProvider(
+        template: "{level} : {message}",
+        level: RockLib.Logging.LogLevel.Info,
+        timeout: TimeSpan.FromSeconds(1));
+
+void ConfigureServices(IServiceCollection services)
+{
+    builder.Services.AddLogger()
+        .AddConsoleLogProvider(
+          template: "{level} : {message}",
+          level: RockLib.Logging.LogLevel.Info,
+          output: ConsoleLogProvider.Output.StdOut,
+          timeout: TimeSpan.FromSeconds(1)
+        );
+}
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+
 builder.Services.AddScoped<StoreDbContext>();
 builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,68 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Store.Db.Interfaces;
-using Store.Db.Entities;
-using Store.Db.Repositories;
+using RockLib.Logging;
+using ILogger = RockLib.Logging.ILogger;
 
 namespace Store.Admin
 {
     public class AdminController : Controller
     {
-        //private StoreDbContext context;
         private readonly IClientsRepository _clientsRepository;
         private readonly IClientRepository _clientRepository;
-        public AdminController(IClientRepository clientRepo, IClientsRepository clientsRepo)
+        private readonly ILogger _logger;
+
+        public AdminController(IClientRepository clientRepo, IClientsRepository clientsRepo, ILogger log)
         {
-            _clientRepository = clientRepo; //  new ClientRepository(new StoreDbContext());
-            _clientsRepository = clientsRepo; // new ClientsRepository(new StoreDbContext());
+            _clientRepository = clientRepo;
+            _clientsRepository = clientsRepo;
+            _logger = log;
         }
-        public static int AddTwoNumbers(int x, int y)
-        {
-            return x + y;
-        }
+
         // GET: AdminController
         public ActionResult Clients()
         {
-
+            _logger.Info("Searching for clients");
             var clients =  _clientsRepository.GetAllCustomers();
 
-
-            //var clients = new ClientListView();
-            //var db = new StoreDbContext();
-            //clients.ClientsRecords = (from r in db.Customers                                 
-            //                          select new ClientView { Address = r.Address, 
-            //                                                                 Birthday = r.BirthDate.ToString(),
-            //                                                                 Points = r.Points,
-            //                                                                 Name = r.FirstName + " " + r.LastName,
-            //                                                                 ClientId = r.CustomerId}).ToList();
             return View(clients);
         }
 
         public ActionResult ClientOrders(int id)
         {
+            _logger.Info("Searching for client orders");
             var client = _clientRepository.GetAllOrders(id);
             
-            /*var db = new StoreDbContext();
-            var client = new ClientsListView
-            {
-                Name = (from c in db.Customers
-                        where c.CustomerId == id
-                        select new ClientsView
-                        {
-                            Name = c.FirstName + " " + c.LastName 
-                    }).ToList(),
-
-                Orders = (from o in db.Orders
-                          join oi in db.OrderItems on o.OrderId equals oi.OrderId
-                          join p in db.Products on oi.ProductId equals p.ProductId
-                          where o.CustomerId == id
-                          select new ClientsView
-                          {
-                              OrderId = o.OrderId,
-                              Quantity = oi.Quantity,
-                              UnitPrice = p.UnitPrice,
-                              Name = p.Name
-                          }).ToList(),
-            }; */
             return View(client);    
         }        
 

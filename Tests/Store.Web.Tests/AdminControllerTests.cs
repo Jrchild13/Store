@@ -8,7 +8,7 @@ namespace Store.Web.Tests
         [Fact]
         public void Test1()
         {
-            Assert.True(4 == AdminController.AddTwoNumbers(2, 2));
+            //Assert.True(4 == AdminController.AddTwoNumbers(2, 2));
         }
     }
 }
