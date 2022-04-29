@@ -42,18 +42,18 @@ namespace Store.Db.Repositories
                 };
                 if (clientRecords.ClientOrders.Count > 0)
                 {
-                    _logger.Info("Returning orders found for this client");
+                    _logger.Debug("Returning orders found for this client");
                 }
                 else
                 {
-                    _logger.Info("No orders found for this client");
+                    _logger.Debug("No orders found for this client");
                 }
 
                 return clientRecords;
             }
             catch (Exception ex)
             {
-                _logger.Warn("Something wen't wrong in ClientRepository");
+                _logger.Error("Something wen't wrong in ClientRepository");
                 throw new Exception(ex.Message);
             }
         }

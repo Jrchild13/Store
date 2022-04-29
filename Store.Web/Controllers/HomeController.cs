@@ -17,13 +17,13 @@ namespace Store.Controllers
 
         public IActionResult Index()
         {
-            _logger.Info("Starting home page");
+            _logger.Debug("Starting home page");
             return View();
         }
 
         public IActionResult Privacy()
         {
-            _logger.Info("Opened Privacy page");
+            _logger.Debug("Opened Privacy page");
             return View();
         }
 
