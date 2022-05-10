@@ -7,18 +7,20 @@ using RockLib.Logging;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddLogger()
-    .AddConsoleLogProvider(
+    .AddFileLogProvider(
         template: "{level} : {message}",
+        file: "C:\\admin\\logs\\log.txt",
         level: RockLib.Logging.LogLevel.Info,
         timeout: TimeSpan.FromSeconds(1));
 
 void ConfigureServices(IServiceCollection services)
 {
     builder.Services.AddLogger()
-        .AddConsoleLogProvider(
+        .AddFileLogProvider(
           template: "{level} : {message}",
           level: RockLib.Logging.LogLevel.Info,
-          output: ConsoleLogProvider.Output.StdOut,
+          file: "C:\\admin\\logs\\log.txt",
+          //output: ConsoleLogProvider.Output.StdOut,
           timeout: TimeSpan.FromSeconds(1)
         );
 }
